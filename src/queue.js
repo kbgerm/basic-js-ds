@@ -13,21 +13,45 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
+class ListNode {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
 class Queue {
-
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.head = null; // Голова очереди (начало списка)
+    this.tail = null; // Хвост очереди (конец списка)
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  // Метод для добавления элемента в конец очереди
+  enqueue(value) {
+    const newNode = new ListNode(value); // Создаем новый узел
+    if (!this.tail) { // Если очередь пуста
+      this.head = newNode; // Новый узел будет и головой, и хвостом
+      this.tail = newNode;
+    } else {
+      this.tail.next = newNode; // Добавляем новый узел в конец очереди
+      this.tail = newNode; // Обновляем хвост
+    }
   }
 
+  // Метод для извлечения и удаления элемента из начала очереди
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.head) return undefined; // Если очередь пуста, возвращаем undefined
+    const value = this.head.value; // Сохраняем значение первого элемента
+    this.head = this.head.next; // Перемещаем голову очереди на следующий элемент
+    if (!this.head) {
+      this.tail = null; // Если очередь пуста после удаления, хвост тоже становится null
+    }
+    return value; // Возвращаем значение первого элемента
+  }
+
+  // Метод для получения underlying linked list (связанного списка)
+  getUnderlyingList() {
+    return this.head; // Возвращаем голову списка
   }
 }
 
